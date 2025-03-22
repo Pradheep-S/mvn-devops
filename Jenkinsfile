@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "nadinc/mvn"
+        DOCKER_IMAGE = "pradheep255/mvn-test"
         DOCKER_TAG = "latest"
-        DOCKER_CREDENTIALS_ID = "e752556d-0bc6-4985-ad16-6f2a663ce000"
+        DOCKER_CREDENTIALS_ID = "docker-seccred"
         
         KUBECONFIG = "/var/lib/jenkins/.kube/config"
     }
@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git url: 'https://github.com/nadin-c/MVNM_project.git', branch: 'main'
+                git url: 'https://github.com/Pradheep-S/mvn-devops.git', branch: 'main'
             }
         }
 
@@ -52,7 +52,7 @@ pipeline {
         stage('Login to Docker Hub') {
             steps {
                 echo "Logging into Docker Hub..."
-                withCredentials([usernamePassword(credentialsId: 'e752556d-0bc6-4985-ad16-6f2a663ce000', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker-seccred', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
                 }
             }
